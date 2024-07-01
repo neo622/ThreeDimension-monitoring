@@ -16,7 +16,12 @@ export function Floor({ name = "floor", ...rest }: FloorProps) {
     <>
       <mesh name={name} rotation={[Math.PI / 2, 0, 0]} {...rest}>
         <planeGeometry args={[size, size]} />
-        <meshStandardMaterial side={DoubleSide} color={"#ffffff"} />
+        <meshStandardMaterial
+          side={DoubleSide}
+          color={"#ffffff"}
+          metalness={0.8}
+          roughness={0.8}
+        />
       </mesh>
       <gridHelper
         position={[0, 0, 0]}

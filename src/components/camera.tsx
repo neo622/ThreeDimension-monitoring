@@ -8,7 +8,6 @@ export function FixedCarmera() {
   camera.lookAt(0, 0, 0);
 
   useFrame(() => {
-    // Keep the camera fixed
     camera.position.set(15, 15, 15);
     camera.lookAt(0, 0, 0);
   });

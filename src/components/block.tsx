@@ -28,7 +28,8 @@ export const Block = forwardRef<Mesh, BlockProps>(
     {
       name,
       position,
-      color = "#39D353",
+      // color = "#39D353",
+      color = "black",
       edgesColor,
       opacity,
       onClick,
