@@ -5,6 +5,7 @@ import { Block, BlockProps, HighlighBlock } from "./block";
 import { Floor } from "./floor";
 import { Intersection, Mesh, Object3D, Vector3 } from "three";
 import { Lights } from "./lights";
+import { FixedCarmera } from "./camera";
 import React from "react";
 
 export interface ServerViewProps {}
@@ -88,13 +89,18 @@ export function ServerView({}: ServerViewProps) {
 
   return (
     <>
+      <FixedCarmera />
       <Lights />
       <HighlighBlock name="highlight" ref={highlightBlockRef} />
       {blocks?.map((blockProps, index) => (
         <Block key={index} {...blockProps} />
       ))}
       <Floor name="floor" />
-      <OrbitControls />
+      <OrbitControls
+        enableRotate={false}
+        enableZoom={false}
+        enablePan={false}
+      />
     </>
   );
 }
