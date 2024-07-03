@@ -6,6 +6,7 @@ import { Floor } from "./floor";
 import { Intersection, Mesh, Object3D, Vector3 } from "three";
 import { Lights } from "./lights";
 import { FixedCarmera } from "./camera";
+import { FullRack } from "./Rack";
 import React from "react";
 
 export interface ServerViewProps {}
@@ -93,7 +94,7 @@ export function ServerView({}: ServerViewProps) {
       <Lights />
       <HighlighBlock name="highlight" ref={highlightBlockRef} />
       {blocks?.map((blockProps, index) => (
-        <Block key={index} {...blockProps} />
+        <FullRack key={index} {...blockProps} />
       ))}
       <Floor name="floor" />
       <OrbitControls
