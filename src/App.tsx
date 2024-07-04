@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { Canvas } from "@react-three/fiber";
@@ -6,6 +6,14 @@ import { ServerView } from "./components/ServerView";
 // import { Experience } from "./components/Rack";
 
 function App() {
+  const [mode, setMode] = useState<any>("norm");
+  const clickMode = () => {
+    if (mode === "norm") {
+      setMode("edit");
+    } else {
+      setMode("norm");
+    }
+  };
   return (
     <div
       className="App"
@@ -16,10 +24,28 @@ function App() {
         marginRight: "auto",
       }}
     >
+      <div>
+        <button
+          style={{ backgroundColor: "blue", marginLeft: "50px" }}
+          onClick={() => clickMode()}
+        >
+          {mode} Mode
+        </button>
+      </div>
       <Canvas>
         {/* <Experience /> */}
-        <ServerView />
+        <ServerView mode={mode} />
       </Canvas>
+      <div
+        style={{
+          backgroundColor: "grey",
+          width: "200px",
+          height: "80vh",
+          marginRight: "50px",
+        }}
+      >
+        Table
+      </div>
     </div>
   );
 }

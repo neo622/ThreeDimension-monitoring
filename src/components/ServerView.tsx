@@ -9,9 +9,11 @@ import { FixedCarmera } from "./camera";
 import { FullRack } from "./Rack";
 import React from "react";
 
-export interface ServerViewProps {}
+export interface ServerViewProps {
+  mode: string;
+}
 type NewBlock = Omit<BlockProps, "position"> & { position: Vector3 };
-export function ServerView({}: ServerViewProps) {
+export function ServerView({ mode }: ServerViewProps) {
   const [blocks, setBlocks] = useState<NewBlock[]>([]);
 
   const highlightBlockRef = useRef<Mesh>(null);
@@ -34,19 +36,21 @@ export function ServerView({}: ServerViewProps) {
         name: `block-${prevBlocks.length + 1}`,
         position,
       };
-      console.log(position);
+      // console.log(position);
       return [...prevBlocks, newBlock];
     });
   }
 
   function handlePointDown() {
     if (highlightBlockRef.current) {
-      //highlightBlockRef의 현재 position을 복사하고 바닥 좌표로 변환 후 0.5를 더한 값을 구해서 position에 저장
-      const position = new Vector3()
-        .copy(highlightBlockRef.current.position)
-        .floor()
-        .addScalar(0.5);
-      placeBlock(position);
+      if (highlightBlockRef.current.visible === true) {
+        //highlightBlockRef의 현재 position을 복사하고 바닥 좌표로 변환 후 0.5를 더한 값을 구해서 position에 저장
+        const position = new Vector3()
+          .copy(highlightBlockRef.current.position)
+          .floor()
+          .addScalar(0.5);
+        placeBlock(position);
+      }
     }
   }
 
@@ -61,7 +65,7 @@ export function ServerView({}: ServerViewProps) {
     )?.[0];
 
     if (intersect) {
-      if (!highlightBlockRef.current) {
+      if (!highlightBlockRef.current && mode === "edit") {
         return console.warn("hihgtlightBlockRef not found");
       }
 
@@ -77,7 +81,15 @@ export function ServerView({}: ServerViewProps) {
 
       position.y = Math.max(0.5, position.y);
 
-      highlightBlockRef.current.position.copy(position);
+      highlightBlockRef.current?.position.copy(position);
+      if (highlightBlockRef.current) {
+        highlightBlockRef.current.visible = true;
+      }
+    } else {
+      // floor out
+      if (highlightBlockRef.current) {
+        highlightBlockRef.current.visible = false;
+      }
     }
   });
 
@@ -92,7 +104,10 @@ export function ServerView({}: ServerViewProps) {
     <>
       <FixedCarmera />
       <Lights />
-      <HighlighBlock name="highlight" ref={highlightBlockRef} />
+      {mode === "edit" && (
+        <HighlighBlock name="highlight" ref={highlightBlockRef} />
+      )}
+
       {blocks?.map((blockProps, index) => (
         <FullRack key={index} {...blockProps} />
       ))}

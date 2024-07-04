@@ -1,6 +1,7 @@
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import { Vector3 } from "@react-three/fiber";
 import React, { forwardRef, useRef } from "react";
+import { useSpring, animated } from "@react-spring/three";
 
 export interface RackProps {
   name?: string;
@@ -12,13 +13,22 @@ export const FullRack = forwardRef<RackProps>(
   ({ name, position, onClick }: RackProps) => {
     const group: any = useRef();
     const { nodes, materials }: any = useGLTF("./model/scene-transformed.glb");
-    console.log("name", name);
-    console.log("position", position);
+    // console.log("name", name);
+    // console.log("position", position);
+    const onClickRack = () => {
+      console.log(position);
+    };
     return (
       <>
         {/* <ambientLight intensity={1} /> */}
         <OrbitControls />
-        <group ref={group} dispose={null} position={position} scale={1}>
+        <group
+          ref={group}
+          dispose={null}
+          position={position}
+          scale={1}
+          onClick={onClickRack}
+        >
           <group rotation={[-Math.PI / 2, 0, 0]}>
             <group rotation={[Math.PI / 2, 0, 0]}>
               <group scale={0.01}>
