@@ -1,9 +1,16 @@
 import { OrbitControls } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame, useThree, Canvas } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import { Block, BlockProps, HighlighBlock } from "./block";
 import { Floor } from "./floor";
-import { Intersection, Mesh, Object3D, Vector3 } from "three";
+import {
+  Intersection,
+  Mesh,
+  Object3D,
+  Vector3,
+  PerspectiveCamera,
+  WebGLRenderer,
+} from "three";
 import { Lights } from "./lights";
 import { FixedCarmera } from "./camera";
 import { FullRack } from "./Rack";
@@ -11,15 +18,28 @@ import React from "react";
 
 export interface ServerViewProps {
   mode: string;
+  setLightsPos: any;
 }
 type NewBlock = Omit<BlockProps, "position"> & { position: Vector3 };
-export function ServerView({ mode }: ServerViewProps) {
+//Omit -> 특정 속성을 제외한 새로운 타입을 만들고 새로운 position: Vector3 속성 추가
+
+export function ServerView({ mode, setLightsPos }: ServerViewProps) {
   const [blocks, setBlocks] = useState<NewBlock[]>([]);
 
   const highlightBlockRef = useRef<Mesh>(null);
-  const { raycaster, scene, camera, mouse } = useThree();
+  const { raycaster, scene, camera, gl, mouse } = useThree();
   //@ts-ignore
   const intersectsRef = useRef<Intersection<Object3D<Event>>[]>();
+
+  function calcScreenPosition(position: Vector3, camera: any, canvas: any) {
+    const vector = position.clone().project(camera);
+    const x = (vector.x * 0.5 + 0.5) * canvas.clientWidth;
+    const y = (1 - (vector.y * 0.5 + 0.5)) * canvas.clientHeight;
+    console.log("window position:", x, y);
+    const lightPos: any = [JSON.stringify(x) + "px", JSON.stringify(y) + "px"];
+    setLightsPos(lightPos);
+    return { x, y };
+  }
 
   function placeBlock(position: Vector3) {
     setBlocks((prevBlocks) => {
@@ -36,7 +56,7 @@ export function ServerView({ mode }: ServerViewProps) {
         name: `block-${prevBlocks.length + 1}`,
         position,
       };
-      // console.log(position);
+      console.log(camera);
       return [...prevBlocks, newBlock];
     });
   }
@@ -50,10 +70,12 @@ export function ServerView({ mode }: ServerViewProps) {
           .floor()
           .addScalar(0.5);
         placeBlock(position);
+        calcScreenPosition(position, camera, gl.domElement);
       }
     }
   }
 
+  // for highlight block
   useFrame(() => {
     raycaster.setFromCamera(mouse, camera);
     //@ts-ignore
