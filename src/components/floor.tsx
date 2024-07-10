@@ -8,8 +8,8 @@ export interface FloorProps extends MeshProps {
 }
 
 export function Floor({ name = "floor", ...rest }: FloorProps) {
-  const size = 20;
-  const wallHeight = 2;
+  const size = 10; //20
+  const wallHeight = 1; //2
   const wallThickness = 0.1;
 
   return (
@@ -30,19 +30,19 @@ export function Floor({ name = "floor", ...rest }: FloorProps) {
       {/* Walls */}
       <mesh position={[0, wallHeight / 2, size / 2]}>
         <boxGeometry args={[size, wallHeight, wallThickness]} />
-        <meshStandardMaterial color={"#ffffff"} />
+        <meshStandardMaterial color={"#ffffff"} opacity={0.8} />
       </mesh>
       <mesh position={[0, wallHeight / 2, -size / 2]}>
         <boxGeometry args={[size, wallHeight, wallThickness]} />
-        <meshStandardMaterial color={"#ffffff"} />
+        <meshStandardMaterial color={"#ffffff"} opacity={0.2} />
       </mesh>
       <mesh position={[size / 2, wallHeight / 2, 0]}>
         <boxGeometry args={[wallThickness, wallHeight, size]} />
-        <meshStandardMaterial color={"#ffffff"} />
+        <meshStandardMaterial color={"#ffffff"} opacity={0.2} />
       </mesh>
       <mesh position={[-size / 2, wallHeight / 2, 0]}>
         <boxGeometry args={[wallThickness, wallHeight, size]} />
-        <meshStandardMaterial color={"#ffffff"} />
+        <meshStandardMaterial color={"#ffffff"} opacity={0.2} />
       </mesh>
     </>
   );
