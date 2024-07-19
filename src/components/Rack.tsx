@@ -12,7 +12,7 @@ export interface RackProps {
 export const FullRack = forwardRef<RackProps>(
   ({ name, position, onClick }: RackProps) => {
     const group: any = useRef();
-    const { nodes, materials }: any = useGLTF("./model/scene-transformed.glb");
+    const { nodes, materials }: any = useGLTF("./servermodel/scene.gltf");
     // console.log("name", name);
     // console.log("position", position);
     const onClickRack = () => {
@@ -31,12 +31,10 @@ export const FullRack = forwardRef<RackProps>(
         >
           <group rotation={[-Math.PI / 2, 0, 0]}>
             <group rotation={[Math.PI / 2, 0, 0]}>
-              <group scale={0.01}>
-                <mesh
-                  geometry={nodes.CardboardBox_LP_lambert1_0.geometry}
-                  material={materials.lambert1}
-                />
-              </group>
+              <mesh
+                geometry={nodes.defaultMaterial.geometry}
+                material={materials.ServerMaterial}
+              />
             </group>
           </group>
         </group>
@@ -45,4 +43,4 @@ export const FullRack = forwardRef<RackProps>(
   }
 );
 
-useGLTF.preload("./model/scene-transformed.glb");
+useGLTF.preload("./servermodel/scene.gltf");

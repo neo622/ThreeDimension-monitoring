@@ -19,8 +19,9 @@ export function Floor({ name = "floor", ...rest }: FloorProps) {
         <meshStandardMaterial
           side={DoubleSide}
           color={"#ffffff"}
-          metalness={0.8}
-          roughness={0.8}
+          metalness={0.5}
+          roughness={0.1}
+          transparent={true}
         />
       </mesh>
       <gridHelper
@@ -30,19 +31,27 @@ export function Floor({ name = "floor", ...rest }: FloorProps) {
       {/* Walls */}
       <mesh position={[0, wallHeight / 2, size / 2]}>
         <boxGeometry args={[size, wallHeight, wallThickness]} />
-        <meshStandardMaterial color={"#ffffff"} opacity={0.8} />
+        <meshStandardMaterial
+          color={"#ffffff"}
+          opacity={0.7}
+          transparent={true}
+        />
       </mesh>
       <mesh position={[0, wallHeight / 2, -size / 2]}>
         <boxGeometry args={[size, wallHeight, wallThickness]} />
-        <meshStandardMaterial color={"#ffffff"} opacity={0.2} />
+        <meshStandardMaterial color={"#ffffff"} />
       </mesh>
       <mesh position={[size / 2, wallHeight / 2, 0]}>
         <boxGeometry args={[wallThickness, wallHeight, size]} />
-        <meshStandardMaterial color={"#ffffff"} opacity={0.2} />
+        <meshStandardMaterial
+          color={"#ffffff"}
+          opacity={0.7}
+          transparent={true}
+        />
       </mesh>
       <mesh position={[-size / 2, wallHeight / 2, 0]}>
         <boxGeometry args={[wallThickness, wallHeight, size]} />
-        <meshStandardMaterial color={"#ffffff"} opacity={0.2} />
+        <meshStandardMaterial color={"#ffffff"} />
       </mesh>
     </>
   );
