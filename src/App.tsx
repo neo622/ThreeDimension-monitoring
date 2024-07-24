@@ -9,7 +9,7 @@ import axios from "axios";
 function App() {
   const [mode, setMode] = useState<any>("norm");
   const [lights, setLights] = useState<any>([]); // rack 정보에 추가로 light 정보 받을 예정
-  const [rack_data, setRack_data] = useState<any>({});
+  const [rack_data, setRack_data] = useState<any>([]);
 
   const getLightsPosition = (position?: any) => {
     setLights(position);

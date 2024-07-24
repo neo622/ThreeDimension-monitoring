@@ -21,11 +21,22 @@ def read_rack_data():
     racks = cursor.fetchall()
     conn.close()
     rack_list = []
+    id_check = []
     for row in racks:
         rack_dict = dict(row)
         # position 컬럼의 JSON 문자열을 파싱하여 원래의 JSON 객체로 변환
-        rack_dict['position'] = json.loads(rack_dict['position'])
-        rack_list.append(rack_dict)
+        if rack_dict['rack_id'] not in id_check:
+            id_check.append(rack_dict['rack_id'])
+            if rack_dict['server_name']:
+                rack_dict['server_name'] = [rack_dict['server_name']]
+            else:
+                rack_dict['server_name'] = []
+            rack_dict['position'] = json.loads(rack_dict['position'])
+            rack_list.append(rack_dict)
+        else:
+            for item in rack_list:
+                if item['rack_id'] == rack_dict['rack_id']:
+                    item['server_name'].append(rack_dict['server_name'])
 
     return jsonify(rack_list), 200
 
