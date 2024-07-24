@@ -14,9 +14,11 @@ import {
 import { Lights } from "./lights";
 import { FixedCarmera } from "./camera";
 import { FullRack } from "./Rack";
+import { Door } from "./door";
 import React from "react";
 
 export interface ServerViewProps {
+  data: any;
   mode: string;
   setLightsPos: any;
 }

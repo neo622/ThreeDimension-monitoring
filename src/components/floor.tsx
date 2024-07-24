@@ -2,6 +2,8 @@ import { MeshProps } from "@react-three/fiber";
 import React from "react";
 import { DoubleSide, Vector3 } from "three";
 
+import { Door } from "./door";
+
 export interface FloorProps extends MeshProps {
   name?: string;
   onClickAtPosition?: (positions: Vector3) => any;
@@ -10,7 +12,7 @@ export interface FloorProps extends MeshProps {
 export function Floor({ name = "floor", ...rest }: FloorProps) {
   const size = 10; //20
   const wallHeight = 1; //2
-  const wallThickness = 0.1;
+  const wallThickness = 0.01;
 
   return (
     <>
@@ -28,13 +30,14 @@ export function Floor({ name = "floor", ...rest }: FloorProps) {
         position={[0, 0, 0]}
         args={[size, size, "#ffffff", "#ffffff"]}
       />
+
       {/* Walls */}
       <mesh position={[0, wallHeight / 2, size / 2]}>
         <boxGeometry args={[size, wallHeight, wallThickness]} />
         <meshStandardMaterial
           color={"#ffffff"}
-          opacity={0.7}
-          transparent={true}
+          // opacity={0.7}
+          // transparent={true}
         />
       </mesh>
       <mesh position={[0, wallHeight / 2, -size / 2]}>
@@ -53,6 +56,10 @@ export function Floor({ name = "floor", ...rest }: FloorProps) {
         <boxGeometry args={[wallThickness, wallHeight, size]} />
         <meshStandardMaterial color={"#ffffff"} />
       </mesh>
+      <Door
+        position={[4, 0, size / 2 + wallThickness * 7]}
+        rotation={[0, Math.PI, 0]}
+      />
     </>
   );
 }

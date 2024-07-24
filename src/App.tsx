@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { Canvas } from "@react-three/fiber";
 import { ServerView } from "./components/ServerView";
 import { InfoLight } from "./components/infoLight";
+import axios from "axios";
 // import { Experience } from "./components/Rack";
 
 function App() {
   const [mode, setMode] = useState<any>("norm");
   const [lights, setLights] = useState<any>([]); // rack 정보에 추가로 light 정보 받을 예정
+  const [rack_data, setRack_data] = useState<any>({});
 
   const getLightsPosition = (position?: any) => {
     setLights(position);
+  };
+
+  const fetchRackData = async () => {
+    const rackRes = await axios.get("http://127.0.0.1:5000/racks");
+    console.log(rackRes.data);
   };
 
   const clickMode = () => {
@@ -22,6 +29,11 @@ function App() {
       console.log(lights);
     }
   };
+
+  useEffect(() => {
+    fetchRackData();
+  }, []);
+
   return (
     <div
       className="App"
@@ -41,7 +53,11 @@ function App() {
         </button>
       </div>
       <Canvas>
-        <ServerView mode={mode} setLightsPos={getLightsPosition} />
+        <ServerView
+          data={rack_data}
+          mode={mode}
+          setLightsPos={getLightsPosition}
+        />
       </Canvas>
 
       <div
