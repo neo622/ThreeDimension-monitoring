@@ -15,9 +15,6 @@ export const FullRack = forwardRef<RackProps>(
     const { nodes, materials }: any = useGLTF("./servermodel/scene.gltf");
     // console.log("name", name);
     // console.log("position", position);
-    const onClickRack = () => {
-      console.log(position);
-    };
     return (
       <>
         {/* <ambientLight intensity={1} /> */}
@@ -27,7 +24,7 @@ export const FullRack = forwardRef<RackProps>(
           dispose={null}
           position={position}
           scale={1}
-          onClick={onClickRack}
+          onClick={onClick}
         >
           <group rotation={[-Math.PI / 2, 0, 0]}>
             <group rotation={[Math.PI / 2, 0, 0]}>

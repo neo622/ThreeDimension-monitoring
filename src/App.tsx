@@ -4,6 +4,8 @@ import { Canvas } from "@react-three/fiber";
 import { ServerView } from "./components/ServerView";
 import { InfoLight } from "./components/infoLight";
 import axios from "axios";
+import { Vector3 } from "three";
+
 // import { Experience } from "./components/Rack";
 
 function App() {
@@ -17,7 +19,22 @@ function App() {
 
   const fetchRackData = async () => {
     const rackRes = await axios.get("http://127.0.0.1:5000/racks");
-    console.log(rackRes.data);
+    let rackInfo: any = [];
+    for (let i = 0; i < rackRes.data.length; i++) {
+      let eachRack: any = {};
+      eachRack["rack_id"] = rackRes.data[i].rack_id;
+      eachRack["name"] = `block-${rackRes.data[i].rack_id}`;
+      eachRack["position"] = new Vector3(
+        rackRes.data[i].position.x,
+        rackRes.data[i].position.y,
+        rack_data[i].position.z
+      );
+      eachRack["onClick"] = () => {
+        onClickRack(rackRes.data[i].rack_id);
+      };
+      rackInfo.push(eachRack);
+    }
+    setRack_data(rackInfo);
   };
 
   const clickMode = () => {
@@ -28,6 +45,10 @@ function App() {
       setMode("norm");
       console.log(lights);
     }
+  };
+
+  const onClickRack = (param: any) => {
+    console.log("과연??", param);
   };
 
   useEffect(() => {
@@ -54,7 +75,7 @@ function App() {
       </div>
       <Canvas>
         <ServerView
-          data={rack_data}
+          rackData={rack_data}
           mode={mode}
           setLightsPos={getLightsPosition}
         />

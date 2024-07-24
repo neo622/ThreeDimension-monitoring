@@ -5,7 +5,7 @@ import { Lights } from "./lights";
 export function Door(props: any) {
   const group: any = useRef();
   const { nodes, materials }: any = useGLTF("./doormodel/scene.gltf");
-  console.log("door position", props.position);
+  // console.log("door position", props.position);
   return (
     <>
       <group ref={group} {...props} dispose={null} scale={0.005}>

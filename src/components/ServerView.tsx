@@ -14,19 +14,18 @@ import {
 import { Lights } from "./lights";
 import { FixedCarmera } from "./camera";
 import { FullRack } from "./Rack";
-import { Door } from "./door";
 import React from "react";
 
 export interface ServerViewProps {
-  data: any;
+  rackData: any;
   mode: string;
   setLightsPos: any;
 }
 type NewBlock = Omit<BlockProps, "position"> & { position: Vector3 };
 //Omit -> 특정 속성을 제외한 새로운 타입을 만들고 새로운 position: Vector3 속성 추가
 
-export function ServerView({ mode, setLightsPos }: ServerViewProps) {
-  const [blocks, setBlocks] = useState<NewBlock[]>([]);
+export function ServerView({ rackData, mode, setLightsPos }: ServerViewProps) {
+  const [blocks, setBlocks] = useState<NewBlock[]>(rackData);
 
   const highlightBlockRef = useRef<Mesh>(null);
   const { raycaster, scene, camera, gl, mouse } = useThree();
@@ -37,7 +36,7 @@ export function ServerView({ mode, setLightsPos }: ServerViewProps) {
     const vector = position.clone().project(camera);
     const x = (vector.x * 0.5 + 0.5) * canvas.clientWidth;
     const y = (1 - (vector.y * 0.5 + 0.5)) * canvas.clientHeight;
-    console.log("window position:", x, y);
+    // console.log("window position:", x, y);
     const lightPos: any = [JSON.stringify(x) + "px", JSON.stringify(y) + "px"];
     setLightsPos(lightPos);
     return { x, y };
@@ -58,7 +57,7 @@ export function ServerView({ mode, setLightsPos }: ServerViewProps) {
         name: `block-${prevBlocks.length + 1}`,
         position,
       };
-      console.log(camera);
+      console.log(newBlock);
       return [...prevBlocks, newBlock];
     });
   }
@@ -123,6 +122,14 @@ export function ServerView({ mode, setLightsPos }: ServerViewProps) {
       window.removeEventListener("click", handlePointDown);
     };
   }, []);
+
+  useEffect(() => {
+    console.log("@@@", blocks);
+  }, [blocks]);
+
+  useEffect(() => {
+    setBlocks(rackData);
+  }, [rackData]);
 
   return (
     <>
