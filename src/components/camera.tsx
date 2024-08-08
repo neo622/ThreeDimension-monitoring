@@ -10,7 +10,6 @@ export function FixedCarmera() {
   useFrame(() => {
     camera.position.set(8, 8, 8);
     camera.lookAt(0, 0, 0);
-    // camera.zoom = 10;
   });
 
   return null;

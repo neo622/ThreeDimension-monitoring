@@ -14,6 +14,7 @@ import {
 import { Lights } from "./lights";
 import { FixedCarmera } from "./camera";
 import { FullRack } from "./Rack";
+import Aircon from "./aircon";
 import React from "react";
 
 export interface ServerViewProps {
@@ -26,6 +27,41 @@ type NewBlock = Omit<BlockProps, "position"> & { position: Vector3 };
 
 export function ServerView({ rackData, mode, setLightsPos }: ServerViewProps) {
   const [blocks, setBlocks] = useState<NewBlock[]>(rackData);
+  const [aircon, setAircon] = useState<any>([]);
+
+  const airconPos: any = [
+    {
+      x: -4.5,
+      y: 0.5,
+      z: 3.5,
+    },
+    {
+      x: -4.5,
+      y: 0.5,
+      z: 2.5,
+    },
+    {
+      x: -4.5,
+      y: 0.5,
+      z: 1.5,
+    },
+    {
+      x: -4.5,
+      y: 0.5,
+      z: 0.5,
+    },
+  ];
+
+  const airconPos2: any = [];
+
+  useEffect(() => {
+    let tmp_pos: any = [];
+    for (let i = 0; i < airconPos.length; i++) {
+      tmp_pos.push(new Vector3(airconPos[i].x, airconPos[i].y, airconPos[i].z));
+    }
+    console.log("에어컨!!!!!", tmp_pos);
+    setAircon(tmp_pos);
+  }, []);
 
   const highlightBlockRef = useRef<Mesh>(null);
   const { raycaster, scene, camera, gl, mouse } = useThree();
@@ -142,12 +178,11 @@ export function ServerView({ rackData, mode, setLightsPos }: ServerViewProps) {
       {blocks?.map((blockProps, index) => (
         <FullRack key={index} {...blockProps} />
       ))}
+      {aircon?.map((item: any) => (
+        <Aircon position={item} />
+      ))}
       <Floor name="floor" />
-      <OrbitControls
-        enableRotate={false}
-        enableZoom={false}
-        enablePan={false}
-      />
+      <OrbitControls enableRotate={true} enableZoom={true} enablePan={true} />
     </>
   );
 }

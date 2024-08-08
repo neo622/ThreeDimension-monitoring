@@ -23,10 +23,10 @@ export const FullRack = forwardRef<RackProps>(
           ref={group}
           dispose={null}
           position={position}
-          scale={1}
+          scale={1.2}
           onClick={onClick}
         >
-          <group rotation={[-Math.PI / 2, 0, 0]}>
+          <group rotation={[-Math.PI / 2, 0, 3.1]} position={[0, 0.5, 0]}>
             <group rotation={[Math.PI / 2, 0, 0]}>
               <mesh
                 geometry={nodes.defaultMaterial.geometry}

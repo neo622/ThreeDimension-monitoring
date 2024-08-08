@@ -1,0 +1,8 @@
+Model Information:
+* title:	air conditioner
+* source:	https://sketchfab.com/3d-models/air-conditioner-95f15c0088e44164be77e3155992b54d
+* author:	Evermotion (https://sketchfab.com/evermotion)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

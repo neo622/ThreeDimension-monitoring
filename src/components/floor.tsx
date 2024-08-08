@@ -11,7 +11,7 @@ export interface FloorProps extends MeshProps {
 
 export function Floor({ name = "floor", ...rest }: FloorProps) {
   const size = 10; //20
-  const wallHeight = 1; //2
+  const wallHeight = 2.1; //2
   const wallThickness = 0.01;
 
   return (
@@ -20,24 +20,24 @@ export function Floor({ name = "floor", ...rest }: FloorProps) {
         <planeGeometry args={[size, size]} />
         <meshStandardMaterial
           side={DoubleSide}
-          color={"#ffffff"}
-          metalness={0.5}
-          roughness={0.1}
+          color={"#cad3d3"}
+          metalness={0.01}
+          roughness={0.5}
           transparent={true}
         />
       </mesh>
-      <gridHelper
+      {/* <gridHelper
         position={[0, 0, 0]}
         args={[size, size, "#ffffff", "#ffffff"]}
-      />
+      /> */}
 
       {/* Walls */}
       <mesh position={[0, wallHeight / 2, size / 2]}>
         <boxGeometry args={[size, wallHeight, wallThickness]} />
         <meshStandardMaterial
           color={"#ffffff"}
-          // opacity={0.7}
-          // transparent={true}
+          opacity={0.5}
+          transparent={true}
         />
       </mesh>
       <mesh position={[0, wallHeight / 2, -size / 2]}>
@@ -48,7 +48,7 @@ export function Floor({ name = "floor", ...rest }: FloorProps) {
         <boxGeometry args={[wallThickness, wallHeight, size]} />
         <meshStandardMaterial
           color={"#ffffff"}
-          opacity={0.7}
+          opacity={0.5}
           transparent={true}
         />
       </mesh>
